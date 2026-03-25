@@ -1,67 +1,68 @@
-
+import users from './data/users'
+import todos from './data/todos'
+import './App.css'
 
 function App() {
-  // Two variables with some values
-  const word1 = 'Hello'
-  const word2 = 'React'
+  return (
+    <div>
+      <h1>Hello React</h1>
+      <Users users={users} />
+      <Todos todos={todos} />
+    </div>
+  )
+}
 
-  // Two number variables
-  const num1 = 10
-  const num2 = 20
-
-  const profile = {
-    name: 'Gina',
-    location: 'Connecticut',
-    favoriteActivities: ['coding', 'hiking', 'cooking'],
-  }
-
-  const cat = {
-    color: 'calico',
-    numberOfKittens: 3,
-    imageUrl:
-      'https://bestfriends.org/sites/default/files/inline-images/Foster-Agave-1-byAnnika-Harley.jpg',
-  }
+function Users({ users }) {
+  const websiteHref = (website) =>
+    website.startsWith('http://') || website.startsWith('https://')
+      ? website
+      : `https://${website}`
 
   return (
-    <>
-      <div className="App">
-        <h1>
-          {word1} {word2}
-        </h1>
+    <section>
+      <h2>Users</h2>
 
-        <p>
-          {num1} + {num2} = {num1 + num2}
-        </p>
-        <p>
-          {num1} - {num2} = {num1 - num2}
-        </p>
-        <p>
-          {num1} × {num2} = {num1 * num2}
-        </p>
-        <p>
-          {num1} ÷ {num2} = {num1 / num2}
-        </p>
+      {users.map((user) => (
+        <article key={user.id}>
+          <h3>{user.name}</h3>
 
-        <p>
-          My name is {profile.name} and I live in {profile.location}.
-        </p>
+          <p>
+            Email: <a href={`mailto:${user.email}`}>{user.email}</a>
+          </p>
 
-        <ul>
-          <li>{profile.favoriteActivities[0]}</li>
-          <li>{profile.favoriteActivities[1]}</li>
-          <li>{profile.favoriteActivities[2]}</li>
-        </ul>
+          <address>
+            Address: {user.address.street}, {user.address.suite},{' '}
+            {user.address.city} {user.address.zipcode}
+          </address>
 
-        <figure>
-          <img src={cat.imageUrl} alt={`${cat.color} cat`} />
-          <figcaption>
-            This is a {cat.color} cat with {cat.numberOfKittens} kittens.
-          </figcaption>
-        </figure>
+          <p>Company: {user.company.name}</p>
 
-        {/* JSX comment:  we are learning variables, objects, arrays, and JSX rendering */}
-      </div>
-    </>
+          <p>
+            Website:{' '}
+            <a href={websiteHref(user.website)} target="_blank" rel="noreferrer">
+              {user.website}
+            </a>
+          </p>
+        </article>
+      ))}
+    </section>
+  )
+}
+
+function Todos({ todos }) {
+  return (
+    <section>
+      <h2>Todos</h2>
+
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <p>{todo.title}</p>
+            <p>{todo.completed ? 'Completed' : 'In progress'}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
